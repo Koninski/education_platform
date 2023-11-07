@@ -1,7 +1,6 @@
 from django.db import models
 
 
-# Модель Пользователи (User)
 class User(models.Model):
     name = models.CharField(max_length=50,              # Название
                             verbose_name='Имя')
@@ -25,7 +24,7 @@ class User(models.Model):
                                        related_name='favorite_lessons',
                                        verbose_name='Избранное',
                                        blank=True)
-    nikname = models.SlugField(verbose_name='НикНейм')          # Уникальное имя пользователя
+    username = models.SlugField(verbose_name='Имя пользователя')          # Уникальное имя пользователя
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -35,7 +34,6 @@ class User(models.Model):
         return f'{self.pk} {self.surname} {self.name}'
 
 
-# Модель История (History)
 class History(models.Model):
     date = models.DateTimeField(auto_now_add=True,      # Дата
                                 verbose_name='Дата')
@@ -45,11 +43,6 @@ class History(models.Model):
     lesson = models.ForeignKey('lesson.Lesson',         # ID_ Урока
                                on_delete=models.CASCADE,
                                verbose_name='Лекция')
-    # Одна запись - один урок в истории, легко сортировать по дате просмотра
-    # ----------------- Или ----------------------
-    # Одна запись - все уроки, не знаю как будет проходить сортировка по дате
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # lessons = models.ManyToManyField(Lesson)
 
     class Meta:
         verbose_name = 'История'

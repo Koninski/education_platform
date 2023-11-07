@@ -4,6 +4,7 @@ Django 3.2          //// команда pip install Django==3.2
 python-dotenv       //// команда pip install python-dotenv, для работы с .env - файлом
 psycopg2            //// команда pip install psycopg2, для работы с postgresql
 Pillow              //// команда pip install Pillow, для обработки картинок
+                    pip install -r requirements.txt
 
 + установленный на системе postgresql, который тоже скоро переедет в свой доккер
 

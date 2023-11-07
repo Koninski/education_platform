@@ -4,9 +4,9 @@ from .models import User, History
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'surname', 'email', 'phone_number', 'nikname')
-    list_display_links = ('id', 'name', 'surname', 'nikname')
-    search_fields = ('id', 'name', 'surname', 'email', 'phone_number', 'nikname')
+    list_display = ('id', 'name', 'surname', 'email', 'phone_number', 'username')
+    list_display_links = ('id', 'name', 'surname', 'username')
+    search_fields = ('id', 'name', 'surname', 'email', 'phone_number', 'username')
 
 
 class HistoryAdmin(admin.ModelAdmin):
