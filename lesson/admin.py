@@ -10,9 +10,9 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date', 'User', 'lesson')
-    list_display_links = ('id', 'date', 'User', 'lesson')
-    search_fields = ('id', 'date', 'User', 'lesson')
+    list_display = ('id', 'date', 'user', 'lesson')
+    list_display_links = ('id', 'date', 'user', 'lesson')
+    search_fields = ('id', 'date', 'user', 'lesson')
 
 
 admin.site.register(Lesson, LessonAdmin)

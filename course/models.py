@@ -1,7 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
-# Модель Категории (Category)
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Категория')   # Наименование главы
     slug = models.SlugField(verbose_name='Slug')                        # Вспомогательное поле для индексации
@@ -14,8 +14,6 @@ class Category(models.Model):
         return self.name
 
 
-# Модель Курсы (Course)
-# Почему category null=True
 class Course(models.Model):
     name = models.CharField(max_length=100,
                             verbose_name='Наименование курса')  # Название
@@ -23,7 +21,7 @@ class Course(models.Model):
     overall_rating = models.DecimalField(max_digits=5,          # Рейтинг
                                          decimal_places=2, default=0,
                                          verbose_name='Рейтинг')
-    author = models.ForeignKey('user.User',                     # ID_ Пользователь
+    author = models.ForeignKey(get_user_model(),                     # ID_ Пользователь
                                on_delete=models.DO_NOTHING,
                                verbose_name='Автор')
     category = models.ForeignKey('course.Category',             # Категория,
@@ -41,7 +39,6 @@ class Course(models.Model):
         return f'{self.pk} {self.name} ({self.author})'
 
 
-# Модель Глава(Chapter)
 class Chapter(models.Model):
     name = models.CharField(max_length=100,
                             verbose_name='Наименование главы')              # Название
@@ -63,7 +60,7 @@ class Chapter(models.Model):
 # *****************           !!!!!!   ВНИМАНИЕ    !!!!!!       **********************
 # Общий вопрос по отзывам, как ограничить количество оценок на урок, курс дляодного пользователя
 class Review(models.Model):
-    user = models.ForeignKey('user.User',                       # ID_ пользователя
+    user = models.ForeignKey(get_user_model(),                       # ID_ пользователя
                              on_delete=models.CASCADE,
                              verbose_name='Имя пользователя')
     course = models.ForeignKey('course.Course',                 # ID_ Курса

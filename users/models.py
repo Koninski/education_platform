@@ -1,19 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 
 
-class User(models.Model):
-    name = models.CharField(max_length=50,              # Название
-                            verbose_name='Имя')
-    surname = models.CharField(max_length=50,           # Фамилия
-                               verbose_name='Фамилия')
-    email = models.EmailField(unique=True,              # Почта
-                              verbose_name='почта')
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
     phone_number = models.CharField(unique=True,        # Поле и длина под вопросом
                                     max_length=20,
                                     verbose_name='Номер тел.')
     photo = models.ImageField(verbose_name='Фото',      # Фото пользоваьтеля upload_to
                               blank=True, null=True)
-    subs = models.ManyToManyField('user.User',          # Подписки
+    subs = models.ManyToManyField('users.User',          # Подписки
                                   verbose_name='Подписки',
                                   blank=True)
     likes = models.ManyToManyField('lesson.Lesson',             # Лайки урокам
@@ -24,20 +21,20 @@ class User(models.Model):
                                        related_name='favorite_lessons',
                                        verbose_name='Избранное',
                                        blank=True)
-    username = models.SlugField(verbose_name='Имя пользователя')          # Уникальное имя пользователя
+
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return f'{self.pk} {self.surname} {self.name}'
+        return f'{self.pk} {self.last_name} {self.first_name}'
 
 
 class History(models.Model):
     date = models.DateTimeField(auto_now_add=True,      # Дата
                                 verbose_name='Дата')
-    user = models.ForeignKey(User,                      # ID_ пользователя
+    user = models.ForeignKey(get_user_model(),                      # ID_ пользователя
                              on_delete=models.CASCADE,
                              verbose_name='Пользователь')
     lesson = models.ForeignKey('lesson.Lesson',         # ID_ Урока

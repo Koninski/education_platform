@@ -1,7 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
-# Модель Уроки (Lesson)
 class Lesson(models.Model):
     name = models.CharField(max_length=100,                     # Название
                             verbose_name='Наименование лекции')
@@ -12,7 +12,7 @@ class Lesson(models.Model):
     date_publication = models.DateTimeField(verbose_name='Дата публикации',     # Дата публикации, Реализовать логику заполнения
                                             blank=True)
     status = models.BooleanField(verbose_name='Публикация')     # Статус, публикуется или нет, пока непонятно кто этим статусом управляет
-    author = models.ForeignKey('user.User',                     # ID_ Пользователь
+    author = models.ForeignKey(get_user_model(),                     # ID_ Пользователь
                                on_delete=models.DO_NOTHING,
                                verbose_name='Автор')
     chapter = models.ForeignKey('course.Chapter',               # ID_ Глава
@@ -35,14 +35,13 @@ class Lesson(models.Model):
         return f'{self.name} ({self.author})'
 
 
-# Модель Отзывы уроков (Comment)
-# Почему User с большой буквы
+# Модель Отзывы уроков\
 class Comment(models.Model):
     text = models.TextField(max_length=2000,                # Текст
                             verbose_name='Текст')
     date = models.DateTimeField(auto_now_add=True,          # Дата
                                 verbose_name='Дата')
-    User = models.ForeignKey('user.User',                   # ID_ пользователя
+    user = models.ForeignKey(get_user_model(),                   # ID_ пользователя
                              on_delete=models.CASCADE,
                              verbose_name='Пользователь')
     lesson = models.ForeignKey('lesson.Lesson',             # ID_ Урока
@@ -58,4 +57,4 @@ class Comment(models.Model):
         verbose_name_plural = 'Отзывы'
 
     def __str__(self):
-        return f"{self.lesson} {self.date} {self.User}"
+        return f"{self.lesson} {self.date} {self.user}"

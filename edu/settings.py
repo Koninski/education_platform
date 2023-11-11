@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+EMAIL_ADDRES = getenv('EMAIL_ADDRESS', 'some_email_address')
+EMAIL_PASSWORD = getenv('EMAIL_PASSWORD', 'some_email_password')
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = getenv('SECRET_KEY')
@@ -11,7 +14,6 @@ SECRET_KEY = getenv('SECRET_KEY')
 DEBUG = True if getenv('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost').split()
-print(ALLOWED_HOSTS)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,7 +25,7 @@ INSTALLED_APPS = [
 
     'course',
     'lesson',
-    'user'
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -83,6 +85,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 
 LANGUAGE_CODE = 'ru'
