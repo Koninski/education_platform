@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-EMAIL_ADDRES = getenv('EMAIL_ADDRESS', 'your_email_address')
+EMAIL_ADDRESS = getenv('EMAIL_ADDRESS', 'your_email_addres')
 EMAIL_PASSWORD = getenv('EMAIL_PASSWORD', 'your_email_password')
 
 BASE_DIR = Path(__file__).resolve().parent.parent

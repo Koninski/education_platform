@@ -13,7 +13,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from phonenumbers import is_possible_number, PhoneNumber, SUPPORTED_REGIONS, country_code_for_region
 
-from edu.settings import EMAIL_ADDRES, EMAIL_PASSWORD
+from edu.settings import EMAIL_ADDRESS, EMAIL_PASSWORD
 
 
 class PhoneField(forms.Field):
@@ -46,7 +46,7 @@ class RegistrationForm(UserCreationForm):
         # Соединяемся с smtp сервером для отправки сообщения
         smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
         smtpObj.starttls()
-        smtpObj.login(EMAIL_ADDRES, EMAIL_PASSWORD)
+        smtpObj.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 
         # Создаём в бд пользователя с данными формы, но без email
         user = get_user_model().objects.create(username=self.cleaned_data['username'])
@@ -64,7 +64,7 @@ class RegistrationForm(UserCreationForm):
 
         # Отправляем сообщение на почту и заканчиваем сессию smtp сервера
         msg = MIMEMultipart()
-        msg['From'] = f'Gits <{EMAIL_ADDRES}>'
+        msg['From'] = f'Gits <{EMAIL_ADDRESS}>'
         msg['To'] = email
         msg['Subject'] = 'Complete the regisrtation!'
         msg.attach(MIMEText(f'Confirm your email by following the link: https:/{activation_url}', 'plain', 'utf-8'))
