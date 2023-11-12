@@ -2,20 +2,35 @@ from django.views.generic import CreateView, TemplateView, View
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
 
-from .forms import RegisterForm
-from edu.settings import EMAIL_ADDRES, EMAIL_PASSWORD
+from .forms import RegistrationForm
 
-class RegisterView(CreateView):
+
+class AuthorizationView(LoginView):
+    form_class = AuthenticationForm
+    template_name = 'users/authorization.html'
+
+    def get_success_url(self):
+        return reverse_lazy('lessons_list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Авторизация'
+        return context
+
+
+class RegistrationView(CreateView):
     model = get_user_model()
-    template_name = 'users/register.html'
-    form_class = RegisterForm
+    template_name = 'users/registration.html'
+    form_class = RegistrationForm
     success_url = reverse_lazy('lessons_list')
 
     def form_valid(self, form):
         ''' Отправляем сообщение для подтверждения почты '''
-        RegisterForm.confirm_email(form)
-
+        form.confirm_email()
         return redirect('email_confirmation_sent')
 
 
@@ -34,7 +49,7 @@ class EmailConfirmationView(View):
         if user is not None and default_token_generator.check_token(user, token):
             user.email = user_email
             user.save()
-            login(request, user)
+            # login(request, user)
             return redirect('email_confirmation_complete')
         else:
             return redirect('email_confirmation_failed')

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Категория')   # Наименование главы
+    name = models.CharField(max_length=100, verbose_name='Категория')
     slug = models.SlugField(verbose_name='Slug')                        # Вспомогательное поле для индексации
 
     class Meta:
@@ -16,20 +16,22 @@ class Category(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=100,
-                            verbose_name='Наименование курса')  # Название
-    description = models.TextField(verbose_name='Описание')      # описани
-    overall_rating = models.DecimalField(max_digits=5,          # Рейтинг
+                            verbose_name='Название курса')
+    description = models.TextField(verbose_name='Описание')
+    overall_rating = models.DecimalField(max_digits=5,
                                          decimal_places=2, default=0,
-                                         verbose_name='Рейтинг')
-    author = models.ForeignKey(get_user_model(),                     # ID_ Пользователь
+                                         verbose_name='Рейтинг',
+                                         blank=True, null=True)
+    author = models.ForeignKey(get_user_model(),
                                on_delete=models.DO_NOTHING,
                                verbose_name='Автор')
-    category = models.ForeignKey('course.Category',             # Категория,
+    category = models.ForeignKey('courses.Category',
                                  on_delete=models.DO_NOTHING,
                                  verbose_name='Категория')
-    price = models.DecimalField(max_digits=5,                   # Цена
+    price = models.DecimalField(max_digits=5,
                                 decimal_places=2,
-                                verbose_name='Цена', default=0)
+                                verbose_name='Цена', default=0,
+                                blank=True, null=True)
 
     class Meta:
         verbose_name = 'Курс'
@@ -41,10 +43,10 @@ class Course(models.Model):
 
 class Chapter(models.Model):
     name = models.CharField(max_length=100,
-                            verbose_name='Наименование главы')              # Название
-    description = models.TextField(verbose_name='Описание')                 # Описание, max_length
-    order = models.PositiveSmallIntegerField(verbose_name='Номер главы')    # Номер главы
-    course = models.ForeignKey('course.Course',                             # ID_ Курса
+                            verbose_name='Название главы')
+    description = models.TextField(verbose_name='Описание')                 # max_length
+    order = models.PositiveSmallIntegerField(verbose_name='Порядковый номер главы')
+    course = models.ForeignKey('courses.Course',
                                on_delete=models.DO_NOTHING,
                                verbose_name='Курс')
 
@@ -58,19 +60,19 @@ class Chapter(models.Model):
 
 #  Модель Отзывы на курс (Review)
 # *****************           !!!!!!   ВНИМАНИЕ    !!!!!!       **********************
-# Общий вопрос по отзывам, как ограничить количество оценок на урок, курс дляодного пользователя
+# Общий вопрос по отзывам, как ограничить количество оценок на урок, курс для одного пользователя
 class Review(models.Model):
-    user = models.ForeignKey(get_user_model(),                       # ID_ пользователя
+    user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE,
                              verbose_name='Имя пользователя')
-    course = models.ForeignKey('course.Course',                 # ID_ Курса
+    course = models.ForeignKey('courses.Course',
                                on_delete=models.CASCADE,
                                verbose_name='Курс')
     text = models.TextField(max_length=2000, null=True, blank=True,
-                            verbose_name='Текст отзыва')        # Текст, комментарий
-    value = models.PositiveSmallIntegerField(verbose_name='Оценка')     # Оценка
+                            verbose_name='Текст отзыва')
+    value = models.PositiveSmallIntegerField(verbose_name='Оценка')
     date = models.DateTimeField(auto_now_add=True,
-                                verbose_name='Дата отзыва')     # Дата отзыва
+                                verbose_name='Дата отзыва')
 
     class Meta:
         verbose_name = 'Отзыв'
