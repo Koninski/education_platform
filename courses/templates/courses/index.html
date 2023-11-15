@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if courses|length == 0  %}
+<div class="row row-cols-2">
+    <div class="container mr-auto" style="background-color: #9CD6DA;" >
+    <p>Нет данных 1</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #CA6698;">
+    <p>Нет данных 2</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #FAEE72;" >
+    <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #0077BF;">
+    <p>Нет данных 4</p>
+    </div>
+</div>
+{% elif courses|length == 1 %}
+<div class="row row-cols-2">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #9CD6DA;" >
+            Название курса {{ forloop.counter }} {{ item.name }}, автор - {{ item.author }
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #CA6698;">
+        <p>Нет данных 2</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #FAEE72;" >
+      <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #0077BF;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+{% elif courses|length == 2 %}
+<div class="row row-cols-2">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'CA6698' %};" >
+            Название курса {{ forloop.counter }} {{ item.name }}, автор - {{ item.author }
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #FAEE72;" >
+      <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #0077BF;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+{% elif courses|length == 3 %}
+<div class="row row-cols-2">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'CA6698' 'FAEE72'%};" >
+            Название курса {{ forloop.counter }} {{ item.name }}, автор - {{ item.author }
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #0077BF;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+{% else %}
+<div class="row row-cols-2">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'CA6698' 'FAEE72' '0077BF'%};" >
+            Название курса {{ forloop.counter }} {{ item.name }}, автор - {{ item.author }
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

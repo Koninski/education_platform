@@ -1,8 +1,12 @@
+import os.path
 from pathlib import Path
 from os import getenv, path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+EMAIL_ADDRESS = getenv('EMAIL_ADDRESS', 'your_email_addres')
+EMAIL_PASSWORD = getenv('EMAIL_PASSWORD', 'your_email_password')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,7 +15,6 @@ SECRET_KEY = getenv('SECRET_KEY')
 DEBUG = True if getenv('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost').split()
-print(ALLOWED_HOSTS)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,9 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'course',
-    'lesson',
-    'user'
+    'courses',
+    'lessons',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -41,7 +44,7 @@ ROOT_URLCONF = 'edu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,6 +87,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
+
 
 LANGUAGE_CODE = 'ru'
 
@@ -94,9 +99,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-# STATICFILES_DIRS = [path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+# STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 MEDIA_URL = '/media/'

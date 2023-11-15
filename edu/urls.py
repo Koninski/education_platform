@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 
-import user.urls
-import lesson.urls
+import users.urls
+import lessons.urls
+import courses.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(user.urls.url_patterns)),
-    path('', include(lesson.urls.url_patterns))
+    path('', include(users.urls.url_patterns)),
+    path('', include(lessons.urls.url_patterns)),
+    path('', include(courses.urls.url_patterns))
 ]

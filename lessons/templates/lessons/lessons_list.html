@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% for lesson in lessons %}
+    <p>
+      {% for attr in lesson %}
+      {{ attr }}
+      {% endfor %}
+    </p>
+    {% endfor %}
+    <p><a href="{% url 'registration' %}">Регистрация</a></p>
+    <p><a href="{% url 'authorization' %}">Авторизация</a></p>
+</body>
+</html>
