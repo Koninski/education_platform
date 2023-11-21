@@ -38,7 +38,7 @@ class Course(models.Model):
         return f'{self.pk} {self.name} ({self.author})'
 
     def get_absolute_url(self):
-        return reverse('course-display', kwargs={'course_id': self.pk})
+        return reverse('course_display', kwargs={'course_id': self.pk})
 
     class Meta:
         verbose_name = 'Курс'

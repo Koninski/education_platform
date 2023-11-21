@@ -1,19 +1,15 @@
+import smtplib
 from django import forms
-from django.core.validators import validate_integer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator
 from django.forms import TextInput, EmailInput, PasswordInput
 from django.utils.http import urlsafe_base64_encode
-from django.contrib.auth import login
 from django.utils.encoding import force_bytes
 from django.urls import reverse_lazy
-
-import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from phonenumbers import is_possible_number, PhoneNumber, SUPPORTED_REGIONS, country_code_for_region
-
 from edu.settings import EMAIL_ADDRESS, EMAIL_PASSWORD
 
 
@@ -26,17 +22,14 @@ class PhoneField(forms.Field):
                 code = country_code_for_region(region)
                 if value.startswith(str(code)):
                     break
-
             number = int(value[len(str(code)):])
             if is_possible_number(PhoneNumber(code, number)):
                 return
-
         raise forms.ValidationError('Incorrect number')
 
 
 class RegistrationForm(UserCreationForm):
     # phone_number = PhoneField(label='Номер телефона')
-
 
     def confirm_email(self):
         '''

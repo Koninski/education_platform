@@ -1,11 +1,9 @@
-from django.forms import ModelForm, TextInput, Textarea, Select, DecimalField
+from django.forms import ModelForm, TextInput, Textarea, Select
 from .models import *
-from django.views.generic.edit import ModelFormMixin
 
 
 # Форма создания курса
 class CreateCourse(ModelForm):
-    price = DecimalField(max_digits=9, decimal_places=2, label='Цена курса')
 
     class Meta:
         model = Course
