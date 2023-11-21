@@ -2,7 +2,7 @@ from django.views.generic import CreateView, TemplateView, View
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
@@ -15,7 +15,8 @@ class AuthorizationView(LoginView):
     template_name = 'users/authorization.html'
 
     def get_success_url(self):
-        return reverse_lazy('lessons_list')
+        return reverse_lazy('home')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Авторизация'
@@ -26,7 +27,7 @@ class RegistrationView(CreateView):
     model = get_user_model()
     template_name = 'users/registration.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('lessons_list')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         ''' Отправляем сообщение для подтверждения почты '''
@@ -53,6 +54,7 @@ class EmailConfirmationView(View):
             return redirect('email_confirmation_complete')
         else:
             return redirect('email_confirmation_failed')
+
 
 class EmailConfirmationFailedView(TemplateView):
     ''' Почта не подтверждена '''
@@ -82,3 +84,7 @@ class EmailConfirmationSentView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Проверьте электронную почту'
         return context
+
+
+class LogOutUser(LogoutView):
+    next_page = reverse_lazy('home')

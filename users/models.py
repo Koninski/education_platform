@@ -23,13 +23,10 @@ class User(AbstractUser):
                                        verbose_name='Избранное',
                                        blank=True)
 
-
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    def __str__(self):
-        return f'{self.pk} {self.last_name} {self.first_name}'
 
 
 class History(models.Model):

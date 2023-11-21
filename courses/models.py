@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -33,12 +34,15 @@ class Course(models.Model):
                                 verbose_name='Цена', default=0,
                                 blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.pk} {self.name} ({self.author})'
+
+    def get_absolute_url(self):
+        return reverse('course-display', kwargs={'course_id': self.pk})
+
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
-
-    def __str__(self):
-        return f'{self.pk} {self.name} ({self.author})'
 
 
 class Chapter(models.Model):

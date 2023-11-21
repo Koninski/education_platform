@@ -3,6 +3,7 @@ from django.core.validators import validate_integer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator
+from django.forms import TextInput, EmailInput, PasswordInput
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth import login
 from django.utils.encoding import force_bytes
@@ -71,7 +72,12 @@ class RegistrationForm(UserCreationForm):
         smtpObj.send_message(msg)
         smtpObj.quit()
 
-
     class Meta:
         model = get_user_model()
         fields = ('username', 'email', 'password1', 'password2')
+        widgets = {
+            'username': TextInput(attrs={'class': 'form-control'}),
+            'email': EmailInput(attrs={'class': 'form-control'}),
+            'password1': PasswordInput(attrs={'class': 'form-control'}),
+            'password2': PasswordInput(attrs={'class': 'form-control'})
+        }

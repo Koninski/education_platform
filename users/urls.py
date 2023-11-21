@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import RegistrationView, EmailConfirmationView, EmailConfirmationFailedView, \
-    EmailConfirmationCompleteView, EmailConfirmationSentView, AuthorizationView
+    EmailConfirmationCompleteView, EmailConfirmationSentView, AuthorizationView, LogOutUser
 
 
 url_patterns = [
@@ -16,5 +16,6 @@ url_patterns = [
     path('email_confirmation_sent',
          EmailConfirmationSentView.as_view(), name='email_confirmation_sent'),
     path('authorization',
-         AuthorizationView.as_view(), name='authorization')
+         AuthorizationView.as_view(), name='authorization'),
+    path('logout', LogOutUser.as_view(), name='logout')
 ]
