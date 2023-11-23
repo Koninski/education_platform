@@ -53,3 +53,7 @@ docs/_build/
 .env
 venv
 media
+
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py

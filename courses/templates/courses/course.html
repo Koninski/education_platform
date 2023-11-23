@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Страница отдельного курса</h1>
+<div class="container">
+
+  <div class="row justify-content-start">
+      <div class="col-12"><h3>Название курса:</h3> {{ courses.name }}</div>
+  </div>
+
+  <div class="row justify-content-start">
+      <div class="col-12"><h3>Категория:</h3> {{ courses.category }}</div>
+  </div>
+
+  <div class="row justify-content-start">
+      <div class="col-12"><h3>Описание: </h3></div>
+  </div>
+  <div class="row justify-content-start">
+      <div class="col-12"><p>{{ courses.description }}</p></div>
+  </div>
+
+  <div class="row justify-content-start">
+      <div class="col-12">Автор: {{ courses.author }}</div>
+  </div>
+
+  <div class="row justify-content-start">
+      <div class="col-12">Цена: {{ courses.price }}</div>
+  </div>
+
+  <div class="row justify-content-start">
+      <div class="col-12">Рейтинг: {{ courses.overall_rating }}</div>
+  </div>
+
+{% if user.id == courses.author.id %}
+    <a class="btn btn-primary" href="#">Редактировать</a>
+{% else %}
+    <p>Вы не можете редактировать курс</p>
+{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if courses|length == 0  %}
+<div class="row row-cols-2 justify-content-start">
+    <div class="container mr-auto" style="background-color: #9CD6DA; padding: 5px 0px;" >
+    <p>Нет данных 1</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #FAEE72; padding: 5px 0px;">
+    <p>Нет данных 2</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #FAEE72; padding: 5px 0px;" >
+    <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #9CD6DA; padding: 5px 0px;">
+    <p>Нет данных 4</p>
+    </div>
+</div>
+
+{% elif courses|length == 1 %}
+<div class="row row-cols-2 justify-content-start">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #9CD6DA; padding: 5px 0px;" >
+           {{ forloop.counter }}. Название курса:  {{ item.name }}, автор - {{ item.author }} <a class="btn btn-primary" href="{{item.get_absolute_url}}">Просмотр</a>
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #CA6698; padding: 5px 0px;">
+        <p>Нет данных 2</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #FAEE72; padding: 5px 0px;" >
+      <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #0077BF; padding: 5px 0px;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+
+{% elif courses|length == 2 %}
+<div class="row row-cols-2 justify-content-start">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'FAEE72' %}; padding: 5px 0px;" >
+           {{ forloop.counter }}. Название курса:  {{ item.name }}, автор - {{ item.author }} <a class="btn btn-primary" href="{{item.get_absolute_url}}">Просмотр</a>
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #FAEE72; padding: 5px 0px;" >
+      <p>Нет данных 3</p>
+    </div>
+    <div class="container mr-auto" style="background-color: #0077BF; padding: 5px 0px;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+
+{% elif courses|length == 3 %}
+<div class="row row-cols-2 justify-content-start">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'FAEE72' 'FAEE72'%}; padding: 5px 0px;" >
+           {{ forloop.counter }}. Название курса:  {{ item.name }}, автор - {{ item.author }} <a class="btn btn-primary" href="{{item.get_absolute_url}}">Просмотр</a>
+    </div>
+    {% endfor %}
+    <div class="container mr-auto" style="background-color: #0077BF; padding: 5px 0px;">
+      <p>Нет данных 4</p>
+    </div>
+</div>
+
+{% else %}
+<div class="row row-cols-2 justify-content-start">
+    {% for item in courses %}
+    <div class="container mr-auto" style="background-color: #{% cycle '9CD6DA' 'FAEE72' 'FAEE72' '9CD6DA'%}; padding: 5px 0px;">
+           {{ forloop.counter }}. Название курса:  {{ item.name }}, автор - {{ item.author }} <a class="btn btn-primary" href="{{item.get_absolute_url}}">Просмотр</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+{% endblock %}

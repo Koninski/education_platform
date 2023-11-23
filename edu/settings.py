@@ -1,8 +1,12 @@
+import os.path
 from pathlib import Path
 from os import getenv, path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+EMAIL_ADDRESS = getenv('EMAIL_ADDRESS', 'your_email_addres')
+EMAIL_PASSWORD = getenv('EMAIL_PASSWORD', 'your_email_password')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,7 +16,6 @@ DEBUG = True if getenv('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost').split()
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,9 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'course',
-    'lesson',
-    'user'
+    'courses',
+    'lessons',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -41,7 +44,7 @@ ROOT_URLCONF = 'edu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,9 +72,6 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -87,9 +87,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
 
@@ -100,19 +99,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-# STATICFILES_DIRS = [path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+# STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # MEDIA_ROOT = path.join(BASE_DIR, 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
