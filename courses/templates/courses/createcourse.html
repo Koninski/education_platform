@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <form action="{% url 'create_course' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <dl class="row" style="background-color: #FDF6BA;">
+      <dt class="col-sm-3">Автор</dt>
+      <dd class="col-sm-9">{{ user.username }}</dd>
+    </dl>
+    <input type="submit" value="Добавить курс" class="btn btn-primary btn-block"/>
+  </form>
+</div>
+{% endblock %}

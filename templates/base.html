@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'bootstrap\css\bootstrap.css' %}" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+{% include 'inc/_nav.html' %}
+{% if messages %}
+  {%for message in messages %}
+    {% if message.tags == 'error' %}
+      <div class="alert alert-danger" role="alert">{{message}}
+      </div>
+    {% else %}
+      <div class="alert alert-{{message.tags}}" role="alert">{{message}}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% block content %}{% endblock %}
+</body>
+<script src="{% static 'bootstrap\js\bootstrap.js' %}"></script>
+</html>
