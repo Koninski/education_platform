@@ -1,13 +1,15 @@
+from typing import Any
+from django.http import HttpResponse
 from django.views.generic import CreateView, TemplateView, View
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ResetPasswordForm
 
 
 class AuthorizationView(LoginView):
@@ -21,6 +23,14 @@ class AuthorizationView(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Авторизация'
         return context
+
+
+class CustomPasswordResetView(PasswordResetView):
+    form_class = ResetPasswordForm
+
+    def form_valid(self, form: Any) -> HttpResponse:
+        form.send_reset_link()
+        return redirect('password_reset_sent')
 
 
 class RegistrationView(CreateView):
@@ -46,7 +56,7 @@ class EmailConfirmationView(View):
         except (TypeError, ValueError, get_user_model().DoesNotExist):
             user = None
 
-        # Провверяем токен, сохраняем email пользователя при успехе
+        # Проверяем токен, сохраняем email пользователя при успехе
         if user is not None and default_token_generator.check_token(user, token):
             user.email = user_email
             user.save()
