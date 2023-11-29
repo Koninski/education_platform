@@ -31,7 +31,7 @@
   </div>
 
 {% if user.id == courses.author.id %}
-    <a class="btn btn-primary" href="#">Редактировать</a>
+    <a class="btn btn-primary" href="{%url 'edit_course' courses.pk%}">Редактировать</a>
 {% else %}
     <p>Вы не можете редактировать курс</p>
 {% endif %}
