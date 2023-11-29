@@ -63,6 +63,11 @@ class AddChapter(LoginRequiredMixin, CreateView):
     form_class = CreateChapter
     template_name = 'courses/createchapter.html'
 
+    def get_context_data(self, **kwargs):
+        contecxt = super().get_context_data(**kwargs)
+        contecxt['course'] = Course.objects.filter(pk=self.kwargs['course_id3'])
+        return contecxt
+
     def get_success_url(self):
         return reverse_lazy('edit_course', args=[self.kwargs['course_id3']])
 

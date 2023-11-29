@@ -17,6 +17,13 @@ class AddLesson(LoginRequiredMixin, CreateView):
     form_class = CreateLesson
     template_name = 'lessons/createlesson.html'
     pk_url_kwarg = 'course_id4'
+    context_object_name = 'lessons'
+
+    def get_context_data(self, **kwargs):
+        contecxt = super().get_context_data(**kwargs)
+        contecxt['chapter'] = Chapter.objects.filter(pk=self.kwargs['chapter_id'])
+        contecxt['course'] = Course.objects.filter(pk=self.kwargs['course_id4'])
+        return contecxt
 
     def get_success_url(self):
         return reverse_lazy('edit_course', args=[self.kwargs['course_id4']])
