@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Страница создания урока</h1>
+
+<div class="container">
+    <div class="row row-cols-1 justify-content-start" style="background-color: #FDF6BA;">
+        <div class="col-4">
+            <p class="h4">Курс "{{ course.0.name }}"</p>
+        </div>
+    </div>
+    <div class="row row-cols-1 justify-content-start" style="background-color: #FDF6BA;">
+        <div class="col-4">
+            <p class="h5">Глава "{{ chapter.0.name }}"</p>
+        </div>
+    </div>
+    <div class="row row-cols-1 justify-content-start">
+    <div class="col-4">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>{{ field.label }}:<br> {{ field }}</p>
+            {{ field.errors }}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Создать урок</button>
+    </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -5,14 +5,16 @@ from django.contrib.auth import get_user_model
 class Lesson(models.Model):
     name = models.CharField(max_length=100,
                             verbose_name='Название урока')
-    video = models.FileField(verbose_name='Видео', blank=True)  # upload_to
+    video = models.FileField(verbose_name='Видео', null=True, blank=True)  # upload_to
     description = models.TextField(max_length=2000,
                                    verbose_name='Описание')
     date_create = models.DateTimeField(auto_now_add=True,
                                        verbose_name='Дата создания')
-    date_publication = models.DateTimeField(verbose_name='Дата публикации',     # Реализовать логику заполнения
-                                            blank=True)
-    status = models.BooleanField(verbose_name='Публикация')     # Статус, публикуется или нет, пока непонятно кто этим статусом управляет
+    date_publication = models.DateTimeField(verbose_name='Дата публикации',  # Реализовать логику заполнения
+                                            null=True, blank=True)
+    status = models.BooleanField(
+        verbose_name='Публикация',
+        default=False)  # Статус, публикуется или нет, пока непонятно кто этим статусом управляет
     author = models.ForeignKey(get_user_model(),
                                on_delete=models.DO_NOTHING,
                                verbose_name='Автор')
@@ -25,8 +27,8 @@ class Lesson(models.Model):
                                  null=True, blank=True,
                                  verbose_name='Категория')
     likes_amount = models.DecimalField(max_digits=5,
-                                         decimal_places=2,
-                                         verbose_name='Количество лайков', default=0)
+                                       decimal_places=2,
+                                       verbose_name='Количество лайков', default=0)
 
     class Meta:
         verbose_name = 'Лекция'
