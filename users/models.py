@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=False, null=True)
     phone_number = models.CharField(unique=True,        # Поле под вопросом
                                     max_length=20,
                                     verbose_name='Номер тел.',
