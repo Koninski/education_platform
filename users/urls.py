@@ -1,9 +1,10 @@
 from django.urls import path, reverse_lazy
-from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView, PasswordResetDoneView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView, \
+    PasswordResetDoneView, PasswordChangeView, PasswordChangeDoneView
 
 from .views import RegistrationView, EmailConfirmationView, EmailConfirmationFailedView, \
     EmailConfirmationCompleteView, EmailConfirmationSentView, AuthorizationView, LogOutUser, \
-    CustomPasswordResetView
+    CustomPasswordResetView, UserProfileView
 
 
 url_patterns = [
@@ -12,6 +13,15 @@ url_patterns = [
     path('authorization',
          AuthorizationView.as_view(), name='authorization'),
     path('logout', LogOutUser.as_view(), name='logout'),
+
+    path('profile', 
+         UserProfileView.as_view(), name='profile'),
+    path('password_change', 
+         PasswordChangeView.as_view(template_name='users/password_change_form.html'), 
+         name='password_change'),
+    path('password_change/done', 
+         PasswordChangeDoneView.as_view(template_name='users/password_change_complete.html'), 
+         name='password_change_done'),
 
     path('email_confirmation/<user_id_base64>/<user_email_base64>/<token>/',
          EmailConfirmationView.as_view(), name='email_confirmation'),

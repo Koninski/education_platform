@@ -1,4 +1,3 @@
-from typing import Any
 from django.http import HttpResponse
 from django.views.generic import CreateView, TemplateView, View
 from django.shortcuts import redirect
@@ -8,6 +7,8 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
+
+from typing import Any
 
 from .forms import RegistrationForm, ResetPasswordForm
 
@@ -25,14 +26,6 @@ class AuthorizationView(LoginView):
         return context
 
 
-class CustomPasswordResetView(PasswordResetView):
-    form_class = ResetPasswordForm
-
-    def form_valid(self, form: Any) -> HttpResponse:
-        form.send_reset_link()
-        return redirect('password_reset_sent')
-
-
 class RegistrationView(CreateView):
     model = get_user_model()
     template_name = 'users/registration.html'
@@ -43,6 +36,14 @@ class RegistrationView(CreateView):
         ''' Отправляем сообщение для подтверждения почты '''
         form.confirm_email()
         return redirect('email_confirmation_sent')
+    
+
+class CustomPasswordResetView(PasswordResetView):
+    form_class = ResetPasswordForm
+
+    def form_valid(self, form: Any) -> HttpResponse:
+        form.send_reset_link()
+        return redirect('password_reset_sent')
 
 
 class EmailConfirmationView(View):
@@ -93,6 +94,15 @@ class EmailConfirmationSentView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Проверьте электронную почту'
+        return context
+
+
+class UserProfileView(TemplateView):
+    template_name = 'users/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Личный профиль'
         return context
 
 
