@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row row-cols-1 justify-content-start">
+    <div class="col-3 justify-content-start">
+    <form method="post" id="linkEmailForm">
+        {% csrf_token %}
+        {{ form.email.label }}:<br> <p id="email">{{ form.email }}</p>
+        {{ field.errors }}
+
+        <button type="submit" class="btn btn-primary btn-block" id="link_btn">Привязать почту</button>
+
+    </form>
+    </div>
+    </div>
+</div>
+
+<script src="{% static 'js/link_email.js' %}"></script>
+
+{% endblock %}
