@@ -14,7 +14,7 @@ url_patterns = [
          AuthorizationView.as_view(), name='authorization'),
     path('logout', LogOutUser.as_view(), name='logout'),
 
-    path('profile', 
+    path('profile/<slug:username>/', 
          UserProfileView.as_view(), name='profile'),
     path('password_change', 
          PasswordChangeView.as_view(template_name='users/password_change_form.html'), 

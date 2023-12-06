@@ -1,5 +1,6 @@
-from django.http import HttpResponse
-from django.views.generic import CreateView, TemplateView, View
+from typing import Any
+from django.db import models
+from django.views.generic import CreateView, TemplateView, View, UpdateView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
@@ -7,8 +8,6 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-
-from typing import Any
 
 from .forms import RegistrationForm, ResetPasswordForm
 
@@ -41,7 +40,7 @@ class RegistrationView(CreateView):
 class CustomPasswordResetView(PasswordResetView):
     form_class = ResetPasswordForm
 
-    def form_valid(self, form: Any) -> HttpResponse:
+    def form_valid(self, form):
         form.send_reset_link()
         return redirect('password_reset_sent')
 
@@ -97,8 +96,17 @@ class EmailConfirmationSentView(TemplateView):
         return context
 
 
-class UserProfileView(TemplateView):
+class UserProfileView(UpdateView):
     template_name = 'users/profile.html'
+    model = get_user_model()
+    slug_url_kwarg = 'username'
+    fields = ['photo', 'username', 'first_name', 'last_name']
+
+    def get_object(self, queryset=None):
+        return get_user_model().objects.get(username=self.kwargs['username'])
+    
+    def get_success_url(self):
+        return reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
