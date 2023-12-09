@@ -6,7 +6,7 @@ from .forms import CreateCourse, CreateChapter
 from django.urls import reverse_lazy
 
 
-# Главная страница, выводит все курсы в порядке создания
+# Главная страница, выводит все курсы в порядке создания.
 class Index(ListView):
     model = Course
     template_name = 'courses/index.html'

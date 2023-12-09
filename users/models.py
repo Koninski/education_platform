@@ -1,10 +1,11 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
 
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=False, null=True)
     phone_number = models.CharField(unique=True,        # Поле под вопросом
                                     max_length=20,
                                     verbose_name='Номер тел.',
@@ -22,6 +23,9 @@ class User(AbstractUser):
                                        related_name='favorite_lessons',
                                        verbose_name='Избранное',
                                        blank=True)
+    
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'username': self.username})
 
     class Meta:
         verbose_name = 'Пользователь'

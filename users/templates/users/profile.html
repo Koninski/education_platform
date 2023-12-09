@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row row-cols-1 justify-content-start">
+    <div class="col-3 justify-content-start">
+        <p>{{user.username}}</p>
+        <p>{{user.first_name}}</p>
+        <p>{{user.last_name}}</p>
+        <p>{{user.email}}</p>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
