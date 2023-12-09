@@ -4,7 +4,7 @@ from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCom
 
 from .views import RegistrationView, EmailConfirmationView, EmailConfirmationFailedView, \
     EmailConfirmationCompleteView, EmailConfirmationSentView, AuthorizationView, LogOutUser, \
-    CustomPasswordResetView, UserProfileView
+    CustomPasswordResetView, UserProfileEditView, LinkEmailView, UserProfileView
 
 
 url_patterns = [
@@ -14,8 +14,12 @@ url_patterns = [
          AuthorizationView.as_view(), name='authorization'),
     path('logout', LogOutUser.as_view(), name='logout'),
 
-    path('profile', 
+     path('profile/<slug:username>/', 
          UserProfileView.as_view(), name='profile'),
+    path('edit_profile/<slug:username>/', 
+         UserProfileEditView.as_view(), name='edit_profile'),
+     path('edit_profile/<slug:username>/email', 
+         LinkEmailView.as_view(), name='link_email'),
     path('password_change', 
          PasswordChangeView.as_view(template_name='users/password_change_form.html'), 
          name='password_change'),
