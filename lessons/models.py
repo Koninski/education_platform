@@ -60,3 +60,5 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.lesson} {self.date} {self.user}"
+
+
